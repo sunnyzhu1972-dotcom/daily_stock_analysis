@@ -390,16 +390,16 @@ def _compute_trading_day_filter(
         mkt = get_market_for_stock(code)
         if mkt in open_markets or mkt is None:
             filtered_codes.append(code)
+            
+    if config.market_review_enabled and not getattr(args, 'no_market_review', False):
+        effective_region = compute_effective_region(
+            'us',
+            open_markets
+        )
+    else:
+        effective_region = None
 
-   if config.market_review_enabled and not getattr(args, 'no_market_review', False):
-       effective_region = compute_effective_region(
-        'us',
-        open_markets
-    )
-else:
-    effective_region = None
-
-    should_skip_all = (not filtered_codes) and (effective_region or '') == ''
+    should_skip_all = (not filtered_codes) and ((effective_region or '') == '')
     return (filtered_codes, effective_region, should_skip_all)
 
 
