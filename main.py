@@ -392,12 +392,12 @@ def _compute_trading_day_filter(
             filtered_codes.append(code)
 
    if config.market_review_enabled and not getattr(args, 'no_market_review', False):
-    effective_region = compute_effective_region(
+       effective_region = compute_effective_region(
         'us',
         open_markets
     )
-    else:
-        effective_region = None
+else:
+    effective_region = None
 
     should_skip_all = (not filtered_codes) and (effective_region or '') == ''
     return (filtered_codes, effective_region, should_skip_all)
