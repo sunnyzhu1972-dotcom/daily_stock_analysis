@@ -374,8 +374,8 @@ def _compute_trading_day_filter(
         - effective_region '' = all relevant markets closed, skip market review
         - should_skip_all: skip entire run when no stocks and no market review to run
     """
-    force_run = getattr(args, 'force_run', False)
-    if force_run or not getattr(config, 'trading_day_check_enabled', True):
+    force_run = (args, 'force_run', False)
+    if force_run or not (config, 'trading_day_check_enabled', True):
         return (stock_codes, None, False)
 
     from src.core.trading_calendar import (
@@ -391,10 +391,11 @@ def _compute_trading_day_filter(
         if mkt in open_markets or mkt is None:
             filtered_codes.append(code)
 
-    if config.market_review_enabled and not getattr(args, 'no_market_review', False):
-        effective_region = compute_effective_region(
-            getattr(config, 'market_review_region', 'cn') or 'cn', open_markets
-        )
+   if config.market_review_enabled and not getattr(args, 'no_market_review', False):
+    effective_region = compute_effective_region(
+        'us',
+        open_markets
+    )
     else:
         effective_region = None
 
